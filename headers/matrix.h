@@ -1,0 +1,49 @@
+#ifndef MATRIX_H
+#define MATRIX_H
+
+#include <stddef.h>
+#include <stdint.h>
+
+#define MATRIX_SIZE 8
+
+void matrixBegin(
+    const unsigned char rows[MATRIX_SIZE],
+    const unsigned char cols[MATRIX_SIZE]
+);
+
+void matrixSet(
+    const unsigned char frame[MATRIX_SIZE]
+);
+
+/*
+ * Set all eight rows from one 64-bit value.
+ * Bits 63..56 are row 0 (top); bits 7..0 are row 7 (bottom).
+ * Within each row, bit 7 is the leftmost pixel.
+ */
+void matrixSet64(uint64_t frame);
+
+void matrixSet2D(
+    const unsigned char frame[MATRIX_SIZE][MATRIX_SIZE]
+);
+
+void matrixSetRow(
+    unsigned char row,
+    const unsigned char content[MATRIX_SIZE]
+);
+
+void matrixSetRowByte(
+    unsigned char row,
+    unsigned char content
+);
+
+void matrixSetPixel(
+    unsigned char row,
+    unsigned char col,
+    unsigned char value
+);
+
+void matrixClear(void);
+
+void matrixStop(void);
+
+#endif
