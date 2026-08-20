@@ -29,23 +29,45 @@
   -b 115200 -D -U flash:w:ex0-arduino.hex:i</code></pre></li></ol><div class="platforms"><article><h3>macOS</h3><p>Run <code>ls /dev/cu.usb*</code>. Copy the complete result, such as <code>/dev/cu.usbmodem2101</code>, and use it after <code>-P</code>.</p></article><article><h3>Linux</h3><p>Run <code>ls /dev/ttyACM* /dev/ttyUSB*</code>. Copy the device that appears when the Arduino is connected, commonly <code>/dev/ttyACM0</code>. Your user may need serial-port permission.</p></article><article><h3>Windows</h3><p>Open Device Manager → Ports (COM &amp; LPT), connect the Arduino, and note the new entry such as <code>COM4</code>. In the upload command use <code>-P COM4</code>.</p></article></div><p>In every operating system, the value after <code>-P</code> identifies the USB serial connection. Copy the exact value shown by your computer; do not copy the example unchanged.</p></section>
 
 <section id="core" class="module"><div class="section-heading"><p class="eyebrow">1 · Include arduino.h</p><h2>Basic Arduino pins</h2><p>To use this module, add <code>#include "arduino.h"</code>. It exposes functions for configuring pins, sending and reading electrical signals, measuring analog voltages, delaying execution, and controlling a passive buzzer.</p></div><p>Before using a digital pin, configure its direction with <code>pinMode</code>. An <strong>output</strong> is driven by the Arduino, so the program chooses the voltage. An <strong>input</strong> is driven by the external circuit, so the program observes the voltage without forcing it.</p><div class="concepts"><article><b>OUTPUT</b><p>The Arduino sends a signal. Example: turn an LED on or off.</p></article><article><b>INPUT</b><p>The Arduino listens. The circuit must provide a clear HIGH or LOW signal.</p></article><article><b>INPUT_PULLUP</b><p>The Arduino listens and holds the pin HIGH internally. A button between the pin and GND reads HIGH when released and LOW when pressed.</p></article></div>
-<div class="lesson-layout"><div><h3>Continuous input and output example</h3><p>Connect a button between pin 2 and GND, a red LED with a resistor to pin 3, the RGB LED’s channels through separate resistors to pins 9, 10, and 11, and an active buzzer to pin 8 and GND. The loop repeatedly samples the button so the program remains responsive.</p><pre><code><span class="pp">#include</span> <span class="str">"arduino.h"</span>
+<div class="lesson-layout"><div><h3>LEDs, button, and buzzer example</h3><p>Connect the standard LED to pin 2 through a resistor, the button between pin 3 and GND, the RGB LED’s red, green, and blue channels to pins 9, 10, and 11 through resistors, and the passive buzzer to pin 4 and GND. While the button is released, the program alternates the standard LED, two RGB colors, and two pitches. Pressing the button ends the loop and switches all LEDs off.</p><pre><code><span class="pp">#include</span> <span class="str">"arduino.h"</span>
 
-<span class="type">int</span> main(<span class="type">void</span>)
+<span class="pp">#define</span> LED <span class="num">2</span>
+<span class="pp">#define</span> BUTTON <span class="num">3</span>
+<span class="pp">#define</span> RED <span class="num">9</span>
+<span class="pp">#define</span> GREEN <span class="num">10</span>
+<span class="pp">#define</span> BLUE <span class="num">11</span>
+<span class="pp">#define</span> BUZZER <span class="num">4</span>
+
+<span class="type">int</span> main()
 {
-    pinMode(<span class="num">2</span>, INPUT_PULLUP);
-    pinMode(<span class="num">3</span>, OUTPUT);
-    pinMode(<span class="num">8</span>, OUTPUT);
+    pinMode(BUZZER, OUTPUT);
+    pinMode(BUTTON, INPUT_PULLUP);
+    pinMode(LED, OUTPUT);
+    pinMode(RED, OUTPUT);
+    pinMode(GREEN, OUTPUT);
+    pinMode(BLUE, OUTPUT);
 
-    <span class="kw">while</span> (<span class="num">1</span>) {
-        <span class="type">char</span> pressed = digitalRead(<span class="num">2</span>) == LOW;
-        digitalWrite(<span class="num">3</span>, pressed ? HIGH : LOW);
-        digitalWrite(<span class="num">8</span>, pressed ? HIGH : LOW);
-        analogWrite(<span class="num">9</span>, pressed ? <span class="num">255</span> : <span class="num">0</span>);
-        analogWrite(<span class="num">10</span>, <span class="num">0</span>);
-        analogWrite(<span class="num">11</span>, pressed ? <span class="num">0</span> : <span class="num">255</span>);
+    <span class="kw">while</span> (digitalRead(BUTTON) == HIGH) {
+        digitalWrite(LED, HIGH);
+        analogWrite(RED, <span class="num">0xf0</span>);
+        analogWrite(GREEN, <span class="num">0x05</span>);
+        analogWrite(BLUE, <span class="num">0xab</span>);
+        tone(BUZZER, <span class="num">1000</span>, <span class="num">500</span>);
+        delay(<span class="num">500</span>);
+
+        digitalWrite(LED, LOW);
+        analogWrite(RED, <span class="num">0x0f</span>);
+        analogWrite(GREEN, <span class="num">0x52</span>);
+        analogWrite(BLUE, <span class="num">0xc3</span>);
+        tone(BUZZER, <span class="num">2000</span>, <span class="num">500</span>);
+        delay(<span class="num">500</span>);
     }
-}</code></pre></div><figure class="photo-card"><img src="assets/core-wiring.png" alt="Arduino and breadboard with LED, RGB LED, button, resistors, and buzzer"><figcaption>Place component legs in connected breadboard rows; the push button straddles the center gap.</figcaption></figure></div>
+
+    digitalWrite(LED, LOW);
+    analogWrite(RED, <span class="num">0</span>);
+    analogWrite(GREEN, <span class="num">0</span>);
+    analogWrite(BLUE, <span class="num">0</span>);
+}</code></pre></div><figure class="photo-card diagram-card diagram-wide"><img src="assets/diagram-core-components.png" alt="Arduino and breadboard wired to a standard LED, RGB LED, push button, resistors, and buzzer"><figcaption>Reference wiring for the example. The button uses the Arduino’s internal pull-up resistor, so it reads HIGH when released and LOW when pressed.</figcaption></figure></div>
 <div class="table-scroll"><table class="api"><thead><tr><th>Function</th><th>What it does</th><th>Returns</th></tr></thead><tbody><tr><td><code>pinMode(pin, mode)</code></td><td>Configures the electrical role of an Arduino pin. <code>OUTPUT</code> allows the program to drive LOW or HIGH. <code>INPUT</code> lets an external circuit determine the voltage. <code>INPUT_PULLUP</code> is an input with an internal resistor that keeps it HIGH until a button connects it to GND.</td><td>—</td></tr><tr><td><code>digitalWrite(pin, value)</code></td><td>Sets a configured output to <code>HIGH</code> (approximately 5V) or <code>LOW</code> (approximately 0V). This is appropriate for on/off components such as an LED or active buzzer.</td><td>—</td></tr><tr><td><code>digitalRead(pin)</code></td><td>Samples the electrical state of a configured input at the instant of the call.</td><td><code>HIGH</code> or <code>LOW</code></td></tr><tr><td><code>analogRead(pin)</code></td><td>Measures the voltage on A0–A5 and converts the range from 0V to 5V into an integer scale.</td><td>0–1023</td></tr><tr><td><code>analogWrite(pin, value)</code></td><td>Produces a rapidly switched signal whose average power is controlled by a value from 0 to 255. On pins 3, 5, 6, 9, 10, and 11, the pin still switches only between 0V and 5V, but it does so rapidly. The value controls the percentage of time spent HIGH: 0 is always LOW, 255 is always HIGH, and 128 is HIGH approximately half the time. LEDs appear dimmer because the eye averages these fast pulses.</td><td>—</td></tr><tr><td><code>delay(ms)</code></td><td>Stops execution for the requested number of milliseconds. No later statement runs during the delay.</td><td>—</td></tr><tr><td><code>delayMicroseconds(us)</code></td><td>Stops execution for a much shorter interval measured in microseconds.</td><td>—</td></tr><tr><td><code>tone(pin, frequency, duration)</code></td><td>Alternates a passive-buzzer pin HIGH and LOW at the requested frequency, in hertz, for the requested positive duration in milliseconds. This implementation blocks until the note finishes.</td><td>—</td></tr><tr><td><code>noTone(pin)</code></td><td>Drives the selected buzzer pin LOW. Because <code>tone</code> is blocking, this is used after separate/manual buzzer control rather than to interrupt a running note.</td><td>—</td></tr></tbody></table></div><p class="first-rule"><b>Configuration precedes use:</b> call <code>pinMode</code> before reading from or writing to a basic pin.</p></section>
 
 <section id="lcd" class="module"><div class="section-heading"><p class="eyebrow">2 · Include lcd.h</p><h2>LCD text screen</h2><p>The screen presents two rows of sixteen character cells. Internally it remembers both the characters and a cursor position—the location where the next write begins.</p></div><div class="lesson-layout"><div><h3>Text, cursor, and display state</h3><p><code>lcdPrint</code> writes a sequence of characters beginning at the cursor and advances the cursor after every character. It does <strong>not</strong> erase earlier content. <code>lcdWrite</code> performs the same operation for one character value.</p><p><code>lcdSetCursor(column, row)</code> selects a location before writing. Coordinates begin at zero, so the upper-left cell is <code>(0, 0)</code> and the first cell of the second line is <code>(0, 1)</code>. Clearing and scrolling are separate operations: clearing replaces cells with spaces, while scrolling shifts the visible window over the stored display contents.</p><p>The physical controller normally stores up to 40 character positions per row although only 16 are visible. <code>lcdPrint</code> has no software length check, but text beyond the controller memory wraps and may overwrite earlier positions. For predictable scrolling, keep a scrolling line to at most 40 characters. <code>lcdPrintf</code> additionally limits its formatted result to 63 characters.</p></div><figure class="photo-card"><img src="assets/lcd-screen.png" alt="Two-line, sixteen-character LCD module with four-pin connector"><figcaption>The kit LCD has two rows of sixteen character positions and a four-wire connector.</figcaption></figure></div>
