@@ -10,6 +10,11 @@ The complete guide is published with GitHub Pages:
 
 ## Download
 
-Download [`intro2cs-arduino-lib.zip`](https://intro2cs-biu.github.io/intro2cs-arduino-lib/intro2cs-arduino-lib.zip). The archive contains the public headers and the compiled static library.
+Download [`intro2cs-arduino-lib.zip`](https://intro2cs-biu.github.io/intro2cs-arduino-lib/intro2cs-arduino-lib.zip). The archive contains two source-compatible variants:
+
+- `intro2cs-arduino-lib/intro2cs-arduino-lib.a` for an Arduino Uno.
+- `intro2cs-arduino-simulator/intro2cs-arduino-simulator-lib.a` for a computer terminal.
+
+Both variants include `serial.h` and support `serialBegin()` with standard C input and output.
 
 This repository intentionally distributes compiled library files and public documentation only. Library implementation source files are not included.
