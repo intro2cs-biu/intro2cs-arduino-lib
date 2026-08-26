@@ -30,6 +30,7 @@ int analogRead(char pin);
 
 void delay(unsigned long ms);
 void delayMicroseconds(unsigned long us);
+unsigned long millis(void);
 
 void tone(unsigned char pin, unsigned int frequency, long duration);
 void noTone(unsigned char pin);
