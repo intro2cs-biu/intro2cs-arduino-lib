@@ -23,4 +23,9 @@ Extracting any archive creates one `intro2cs-lib` folder containing shared heade
 
 Both variants include `serial.h` and support `serialBegin()` with standard C input and output. The simulator archive inside each ZIP is compiled for the named operating system.
 
+The digit simulator renders recognized seven-segment patterns as decimal
+digits, appends `.` when the decimal point is active, and uses `_` for a
+cleared position. An unrecognized pattern includes its full hexadecimal value,
+for example `[digits] ? (0x41)`.
+
 This repository intentionally distributes compiled library files and public documentation only. Library implementation source files are not included.
