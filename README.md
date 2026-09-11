@@ -23,6 +23,10 @@ Extracting any archive creates one `intro2cs-lib` folder containing shared heade
 
 Both variants include `serial.h` and support `serialBegin()` with standard C input and output. The simulator archive inside each ZIP is compiled for the named operating system.
 
+The simulator reports `delay(ms)` as `[delay] N ms` and
+`delayMicroseconds(us)` as `[delay] N us`, where `N` is the requested duration.
+It does not actually pause the computer program.
+
 The digit simulator renders recognized seven-segment patterns as decimal
 digits, appends `.` when the decimal point is active, and uses `_` for a
 cleared position. An unrecognized pattern includes its full hexadecimal value,

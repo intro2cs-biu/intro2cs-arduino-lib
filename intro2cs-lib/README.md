@@ -29,9 +29,11 @@ monitor time to reconnect before the program transmits its first message.
 The simulator is suitable for comparing a program with automatic-test output.
 Initialization functions such as `serialBegin`, `pinMode`, `lcdBegin`,
 `matrixBegin`, `digitsBegin`, `keypadBegin`, and `joystickBegin` do not print
-anything. Delays are also silent and do not pause the computer program. Only
-operations that produce visible output—such as `printf`, `digitalWrite`, or
-updating a display—are printed.
+anything. Calls to `delay(ms)` print `[delay] N ms`, and calls to
+`delayMicroseconds(us)` print `[delay] N us`, where `N` is the requested
+duration. Simulated delays report the duration but do not pause the computer
+program. Other operations that produce visible output—such as `printf`,
+`digitalWrite`, or updating a display—are also printed.
 
 Input functions read directly from standard input without displaying prompts.
 This makes interactive input possible while also allowing redirected test data:
