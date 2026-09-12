@@ -35,6 +35,10 @@ duration. Simulated delays report the duration but do not pause the computer
 program. Other operations that produce visible output—such as `printf`,
 `digitalWrite`, or updating a display—are also printed.
 
+The matrix simulator prints one character per pixel: `#` for a lit pixel and
+a space for an unlit pixel. Every matrix row contains exactly eight characters
+between `|` delimiters.
+
 Input functions read directly from standard input without displaying prompts.
 This makes interactive input possible while also allowing redirected test data:
 

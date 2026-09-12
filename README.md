@@ -27,6 +27,10 @@ The simulator reports `delay(ms)` as `[delay] N ms` and
 `delayMicroseconds(us)` as `[delay] N us`, where `N` is the requested duration.
 It does not actually pause the computer program.
 
+The matrix simulator uses exactly one terminal character per pixel: `#` for a
+lit pixel and a space for an unlit pixel. Each row contains eight characters
+between `|` delimiters.
+
 The digit simulator renders recognized seven-segment patterns as decimal
 digits, appends `.` when the decimal point is active, and uses `_` for a
 cleared position. An unrecognized pattern includes its full hexadecimal value,
