@@ -45,11 +45,4 @@ void matrixClear(void);
 
 void matrixStop(void);
 
-/* Previous names retained for source compatibility. */
-void matrixSet(const unsigned char frame[MATRIX_SIZE]);
-void matrixSet64(unsigned long long frame);
-void matrixSet2D(const unsigned char frame[MATRIX_SIZE][MATRIX_SIZE]);
-void matrixSetRow(unsigned char row, const unsigned char content[MATRIX_SIZE]);
-void matrixSetRowByte(unsigned char row, unsigned char content);
-
 #endif
