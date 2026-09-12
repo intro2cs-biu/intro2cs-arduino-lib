@@ -2,7 +2,6 @@
 #define MATRIX_H
 
 #include <stddef.h>
-#include <stdint.h>
 
 #define MATRIX_SIZE 8
 
@@ -20,7 +19,7 @@ void matrixSet(
  * Bits 63..56 are row 0 (top); bits 7..0 are row 7 (bottom).
  * Within each row, bit 7 is the leftmost pixel.
  */
-void matrixSet64(uint64_t frame);
+void matrixSet64(unsigned long long frame);
 
 void matrixSet2D(
     const unsigned char frame[MATRIX_SIZE][MATRIX_SIZE]
