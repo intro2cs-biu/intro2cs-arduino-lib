@@ -14,7 +14,13 @@ Download the archive that matches the computer used to run the simulator:
 
 - [Windows](https://intro2cs-biu.github.io/intro2cs-arduino-lib/intro2cs-lib-windows.zip)
 - [Linux](https://intro2cs-biu.github.io/intro2cs-arduino-lib/intro2cs-lib-linux.zip)
-- [macOS](https://intro2cs-biu.github.io/intro2cs-arduino-lib/intro2cs-lib-macos.zip)
+- [macOS — Apple Silicon (M-series)](https://intro2cs-biu.github.io/intro2cs-arduino-lib/intro2cs-lib-macos.zip)
+
+- [macOS — Intel (macOS 10.13 or later)](https://intro2cs-biu.github.io/intro2cs-arduino-lib/intro2cs-lib-macos-intel.zip)
+
+On a Mac, open **Apple menu → About This Mac**: choose the Apple Silicon ZIP if it lists an Apple M-series chip, or the Intel ZIP if it lists an Intel processor.
+
+For compilation on the departmental Linux server, download the Linux ZIP separately and copy its complete `intro2cs-lib` folder to the server, including headers and both archives. Keep the package for your own computer for local use.
 
 Extracting any archive creates one `intro2cs-lib` folder containing shared headers and two source-compatible variants:
 
