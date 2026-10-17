@@ -1,6 +1,8 @@
 #ifndef DIGITS_H
 #define DIGITS_H
 
+#include "arduino.h"
+
 #define DIGITS_SEGMENTS 8
 #define DIGITS_MAX_DIGITS 4
 

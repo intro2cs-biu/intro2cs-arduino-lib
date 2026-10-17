@@ -1,6 +1,8 @@
 #ifndef ARDUINO_H
 #define ARDUINO_H
 
+#include <stddef.h>
+
 #define INPUT         0
 #define OUTPUT        1
 #define INPUT_PULLUP  2
