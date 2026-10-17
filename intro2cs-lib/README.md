@@ -2,6 +2,10 @@
 
 This folder contains the public headers and two compiled versions of the course library. Students do not need the implementation source files. The simulator archive is platform-specific, so download the ZIP for the operating system on which you will run it.
 
+For macOS, use `intro2cs-lib-macos.zip` on Apple Silicon (M-series) or
+`intro2cs-lib-macos-intel.zip` on Intel Macs. The Intel package targets macOS
+10.13 or later. Both packages use the same compilation commands below.
+
 ## Arduino Uno
 
 ```sh
@@ -23,6 +27,44 @@ Both versions expose the same headers and functions. Include the header for ever
 On the Arduino Uno, `serialBegin` waits briefly after configuring the serial
 connection. Opening a serial monitor resets the board, and this pause gives the
 monitor time to reconnect before the program transmits its first message.
+
+## 64-bit serial numbers
+
+The Uno's AVR libc does not support `long long` conversions in `scanf` or
+`printf`. Use these functions on both the Uno and the simulator instead:
+
+```c
+#include <stdio.h>
+#include "serial.h"
+
+int main(void)
+{
+    unsigned long long number;
+    serialBegin(9600);
+    printf("Please enter a hexadecimal number:\n");
+    if (serialReadUnsignedLongLong(&number, 16) == 1) {
+        printf("You entered: ");
+        serialPrintUnsignedLongLong(number, 16);
+        putchar('\n');
+    } else {
+        printf("Invalid number.\n");
+    }
+    return 0;
+}
+```
+
+Bases 2 through 16 are supported; use 10 for decimal. Input accepts an optional
+`+` and, in base 16, an optional `0x` prefix. Finish the number with whitespace
+(set the serial monitor to Newline or Carriage return). Reading blocks while
+waiting for input. The reader skips leading whitespace and consumes the entire
+token and its first trailing whitespace character, including on invalid input
+or overflow. It returns 1 on success, 0 on invalid input/overflow, and EOF if
+input ends before a token. The output variable is unchanged on failure.
+Negative numbers are rejected. The maximum value is 18446744073709551615
+(`ffffffffffffffff` in hexadecimal).
+
+Printing uses lowercase digits without a prefix or newline and returns the
+number of characters written, or EOF for an unsupported base or output error.
 
 ## Simulator input and output
 

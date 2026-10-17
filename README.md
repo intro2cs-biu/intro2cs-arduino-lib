@@ -12,11 +12,11 @@ The complete guide is published with GitHub Pages:
 
 Download the archive that matches the computer used to run the simulator:
 
-- [Windows](https://intro2cs-biu.github.io/intro2cs-arduino-lib/intro2cs-lib-windows.zip)
-- [Linux](https://intro2cs-biu.github.io/intro2cs-arduino-lib/intro2cs-lib-linux.zip)
-- [macOS — Apple Silicon (M-series)](https://intro2cs-biu.github.io/intro2cs-arduino-lib/intro2cs-lib-macos.zip)
+- [Windows](https://intro2cs-biu.github.io/intro2cs-arduino-lib/intro2cs-lib-windows.zip?v=64bit-serial-1)
+- [Linux](https://intro2cs-biu.github.io/intro2cs-arduino-lib/intro2cs-lib-linux.zip?v=64bit-serial-1)
+- [macOS — Apple Silicon (M-series)](https://intro2cs-biu.github.io/intro2cs-arduino-lib/intro2cs-lib-macos.zip?v=64bit-serial-1)
 
-- [macOS — Intel (macOS 10.13 or later)](https://intro2cs-biu.github.io/intro2cs-arduino-lib/intro2cs-lib-macos-intel.zip)
+- [macOS — Intel (macOS 10.13 or later)](https://intro2cs-biu.github.io/intro2cs-arduino-lib/intro2cs-lib-macos-intel.zip?v=64bit-serial-1)
 
 On a Mac, open **Apple menu → About This Mac**: choose the Apple Silicon ZIP if it lists an Apple M-series chip, or the Intel ZIP if it lists an Intel processor.
 
@@ -43,3 +43,12 @@ cleared position. An unrecognized pattern includes its full hexadecimal value,
 for example `[digits] ? (0x41)`.
 
 This repository intentionally distributes compiled library files and public documentation only. Library implementation source files are not included.
+
+## 64-bit serial numbers
+
+All four packages include `serialReadUnsignedLongLong(&value, base)` and
+`serialPrintUnsignedLongLong(value, base)` for unsigned 64-bit input and output.
+Use base 16 for hexadecimal or base 10 for decimal. The Uno's `scanf` and
+`printf` do not support `long long` conversions.
+
+See the [64-bit serial example and API reference](https://intro2cs-biu.github.io/intro2cs-arduino-lib/#serial-64-bit).
